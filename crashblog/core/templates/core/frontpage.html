@@ -1,0 +1,69 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Home | {% endblock %}
+
+{% block lbar %}
+
+{% comment %} <a href="{% url 'about' %}" class="navbar-item is-size-5 has-text-weight-semibold">
+    About
+</a> {% endcomment %}
+
+{% endblock lbar %}
+
+
+{% block nav %}
+
+<div class="navbar-end">
+    
+    <div class="navbar-end">
+        <div class="navbar-item">
+            <form method="get" action="{% url 'search' %}">
+                <div class="control has-icons-left">
+                    <input class="input is-rounded" name="query" type="text" placeholder="Search">
+                    <span class="icon is-left">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+        <a style="color: lightgrey" href="/login/" class="navbar-item is-size-5 has-text-weight-semibold">
+            Log out
+        </a>
+        <a style="color: lightgrey" href="{% url 'signup' %}" class="navbar-item is-size-5 has-text-weight-semibold">
+            Sign up
+        </a>
+    </div>
+</div>
+
+{% endblock nav %}
+
+{% block content %}
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <section class="section">
+                    <div class="columns">
+                        <div class="column is-8 is-offset-2">
+                            {% for post in posts %}
+                                <div class="content is-medium">
+                                    <a href="{% url 'post_detail' post.category.slug post.slug %}">
+
+                                        <h1 class="title">{{ post.title }}</h1>
+                                        <h3 class="subtitle is-4">{{ post.created_at|timesince }} ago</h3>                                       
+                                        <p>{{ post.intro }}</p>
+                                        {% if post.image %}
+                                            <figure class="image">
+                                                <img src="{{ post.image.url }}">
+                                            </figure>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+{% endblock %}

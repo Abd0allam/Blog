@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ post.title }} | {% endblock %}
+
+{% block nav %}
+
+<div class="navbar-end">
+    
+    <div class="navbar-end">
+        {% comment %} <a href="{% url 'post_detail' post.category.slug post.slug %}" class="navbar-item is-size-5 has-text-weight-semibold">
+            Back
+        </a>    {% endcomment %}
+        <a href="/login/" class="navbar-item is-size-5 has-text-weight-semibold">
+            Log out
+        </a>
+        <a href="{% url 'signup' %}" class="navbar-item is-size-5 has-text-weight-semibold">
+            Sign up
+        </a>
+    </div>
+</div>
+
+{% endblock nav %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <section class="section">
+                
+                <div class="columns">
+                    <div class="column is-8 is-offset-2">
+                        <div class="content is-medium">
+                            <h2 class="subtitle is-4">{{ comment.created_at|timesince }} ago</h2>
+                            <h1 class="title">{{ comment.title }}</h1>
+                            <p><strong>{{ comment.intro }}</strong></p>
+                            <p>{{ comment.body }}</p>
+
+                            {% comment %} <p><small>Category: <a href="{% url 'category_detail' post.category.slug %}">{{ post.category }}</a></small></p> {% endcomment %}
+
+                            <hr>
+                            {% comment %} <h1>{{comment.reply.all}}</h1> {% endcomment %}
+                            {% for c in comment.reply.all %}
+                                {% comment %} <article class="media box">
+                                    <div class="media-content">
+                                        <strong>{{ reply.name }}</strong> <small>{{ reply.created_at|timesince }} ago</small><br>
+                                        
+                                        {{ reply.body }}
+                                    </div>
+                                
+                                </article> {% endcomment %}
+                                <h1>{{ c.body }}</h1>
+
+                            {% endfor %}
+
+                            <form method="post" class="mb-6">
+                                {% csrf_token %}
+
+                                {{ formr.as_p }}
+
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button is-success">Submit reply</button>
+                                    </div>
+                                </div>
+                            </form>
+ 
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}
